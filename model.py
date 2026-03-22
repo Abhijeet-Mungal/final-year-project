@@ -45,3 +45,4 @@ print(f"Model Accuracy: {accuracy * 100:.2f}%")
 # Save the trained model
 with open("model.pkl", "wb") as model_file:
     pickle.dump(model, model_file)
+

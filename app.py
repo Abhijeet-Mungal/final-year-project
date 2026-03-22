@@ -7,9 +7,11 @@ app = Flask(__name__)
 # Load your pre-trained model (replace 'model.pkl' with your actual model file)
 model = joblib.load('model.pkl')
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -18,17 +20,18 @@ def predict():
     protocol_type = int(request.form['protocol_type'])
     src_bytes = float(request.form['src_bytes'])
     dst_bytes = float(request.form['dst_bytes'])
-    
+
     # Prepare input for the model
     input_data = np.array([[duration, protocol_type, src_bytes, dst_bytes]])
-    
+
     # Make prediction
     prediction = model.predict(input_data)
-    
+
     # Interpret prediction
     result = "Intrusion" if prediction[0] == 1 else "Not Intrusion"
-    
+
     return render_template('result.html', result=result)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
